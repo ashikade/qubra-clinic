@@ -1,15 +1,13 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import "./treatments.css";
-import "./refinements.css";
-import "./treatment-fix.css";
+import "./pages.css";
 
 export const metadata: Metadata = {
-  title: "Dr. Khatijatul Qubra | Qubra Aesthetic Clinic",
-  description: "Advanced aesthetic medicine in Kolkata, delivered with precision, science and artistry.",
+  title: "Best Aesthetic and Hair Loss Clinic in Kolkata",
+  description: "Best Aesthetic and Hair Loss Clinic in Kolkata, advanced treatments, and personalized solutions for glowing skin and healthy hair.",
   metadataBase: new URL("https://qubraastheticclinic.com"),
   alternates: { canonical: "/" },
-  openGraph: { title: "Qubra Aesthetic Clinic", description: "Refined aesthetic medicine. Naturally beautiful results.", type: "website" },
+  openGraph: { title: "Best Aesthetic and Hair Loss Clinic in Kolkata", description: "Best Aesthetic and Hair Loss Clinic in Kolkata, advanced treatments, and personalized solutions for glowing skin and healthy hair.", type: "website" },
   twitter: { card: "summary_large_image" }
 };
 

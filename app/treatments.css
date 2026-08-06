@@ -1,5 +1,0 @@
-/* Purposeful stock imagery is reserved for the Signature Treatments cards. */
-.treatment{background-position:center;background-size:cover}
-.treatment:before{background:linear-gradient(145deg,rgba(68,35,11,.18),transparent 48%),linear-gradient(0deg,rgba(15,8,4,.82),rgba(15,8,4,.05) 74%)}
-.treatment:nth-child(2n),.treatment:nth-child(3n){background-color:var(--ink-soft)}
-.t1{background-image:url('https://images.unsplash.com/photo-1616394584738-fc6e612e71b9?auto=format&fit=crop&w=900&q=85')}.t2{background-image:url('https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?auto=format&fit=crop&w=900&q=85')}.t3{background-image:url('https://images.unsplash.com/photo-1596755389378-c31d21fd1273?auto=format&fit=crop&w=900&q=85')}.t4{background-image:url('https://images.unsplash.com/photo-1515377905703-c4788e51af15?auto=format&fit=crop&w=900&q=85')}.t5{background-image:url('https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?auto=format&fit=crop&w=900&q=85')}.t6{background-image:url('https://images.unsplash.com/photo-1519415943484-9fa1879c6ea4?auto=format&fit=crop&w=900&q=85')}
