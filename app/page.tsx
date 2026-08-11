@@ -27,8 +27,36 @@ const reviews = [
 ];
 
 export default function Home() {
-  const [faq, setFaq] = useState<number | null>(0), [review, setReview] = useState(0), [sent, setSent] = useState(false);
-  const book = (e: FormEvent<HTMLFormElement>) => { e.preventDefault(); setSent(true); };
+  const [faq, setFaq] = useState<number | null>(0),
+  [review, setReview] = useState(0),
+  [sent, setSent] = useState(false),
+  [loading, setLoading] = useState(false);
+
+  const [form, setForm] = useState({
+    full_name: "",
+    phone: "",
+    email: "",
+    treatment: "",
+    message: "",
+    website: "",
+  });
+  const book = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setLoading(true);
+    try {
+      const res = await fetch("/api/book", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(form),
+      });
+      if (!res.ok) throw new Error("Failed");
+      setSent(true);
+    } catch (e) {
+      alert("Something went wrong. Please try again.");
+    } finally {
+      setLoading(false);
+    }
+  };
   return <main>
     <script type="application/ld+json" dangerouslySetInnerHTML={{__html: JSON.stringify({ "@context": "https://schema.org", "@graph": [{ "@type": "MedicalClinic", name: "Qubra Aesthetic Clinic", url: "https://qubraastheticclinic.com", description: "Advanced aesthetic medicine in Kolkata." }, { "@type": "Physician", name: "Dr. Khatijatul Qubra", jobTitle: "Founder, Medical Aesthetics", worksFor: { "@type": "MedicalClinic", name: "Qubra Aesthetic Clinic" } }, { "@type": "FAQPage", mainEntity: faqs.map(([name, text]) => ({ "@type": "Question", name, acceptedAnswer: { "@type": "Answer", text } })) }] })}} />
     <SiteHeader/>
@@ -66,7 +94,43 @@ export default function Home() {
 </section>
 
     <section className="faq section"><p className="eyebrow">Questions, answered</p><h2>Everything you need<br/><i>to feel informed.</i></h2><div className="accordion">{faqs.map((item,i)=><div className="faq-item" key={item[0]}><button onClick={()=>setFaq(faq===i?null:i)} aria-expanded={faq===i}><span>{item[0]}</span><ChevronDown className={faq===i?"rotate":""}/></button><AnimatePresence>{faq===i&&<motion.p initial={{height:0,opacity:0}} animate={{height:"auto",opacity:1}} exit={{height:0,opacity:0}}>{item[1]}</motion.p>}</AnimatePresence></div>)}</div></section>
-    <section className="booking" id="booking"><div className="booking-copy"><p className="eyebrow light">A private consultation</p><h2>Begin your<br/><i>transformation.</i></h2><p>Tell us a little about what you’re looking for. Our patient care team will be in touch shortly.</p><a href="tel:+910000000000"><Phone size={16}/> Call the clinic</a></div><div className="form-card">{sent?<motion.div className="success" initial={{scale:.95,opacity:0}} animate={{scale:1,opacity:1}}><ShieldCheck/><h3>Thank you.</h3><p>Your consultation request is with our care team. We’ll be in touch shortly.</p></motion.div>:<form onSubmit={book}><label>Full name<input required placeholder="Your name"/></label><div className="form-row"><label>Phone<input required type="tel" placeholder="Your number"/></label><label>Email<input required type="email" placeholder="you@email.com"/></label></div><label>I'm interested in<select required defaultValue=""><option value="" disabled>Select a treatment</option>{treatments.map(t=><option key={t[1]}>{t[1]}</option>)}</select></label><label>Tell us more <textarea placeholder="Your goals, questions or preferred dates"/></label><button className="button gold" type="submit">Request consultation <ArrowUpRight size={17}/></button><p className="form-note">By submitting, you agree to be contacted by Qubra Aesthetic Clinic.</p></form>}</div></section>
+    <section className="booking" id="booking"><div className="booking-copy"><p className="eyebrow light">A private consultation</p><h2>Begin your<br/><i>transformation.</i></h2><p>Tell us a little about what you’re looking for. Our patient care team will be in touch shortly.</p><a href="tel:+918910375901"><Phone size={16}/> Call the clinic</a></div><div className="form-card">{sent?<motion.div className="success" initial={{scale:.95,opacity:0}} animate={{scale:1,opacity:1}}><ShieldCheck/><h3>Thank you.</h3><p>Your consultation request is with our care team. We’ll be in touch shortly.</p></motion.div>:<form onSubmit={book}>
+  <input
+    type="text"
+    name="website"
+    autoComplete="off"
+    tabIndex={-1}
+    style={{ display: "none" }}
+    value={form.website}
+    onChange={(e) =>
+    setForm({ ...form, website: e.target.value })
+  }
+  />
+  <label>Full name
+<input required placeholder="Your name" value={form.full_name} onChange={(e)=>setForm({...form,full_name:e.target.value})}/>
+</label>
+<div className="form-row">
+<label>Phone
+<input required type="tel" placeholder="Your number" value={form.phone} onChange={(e)=>setForm({...form,phone:e.target.value})}/>
+</label>
+<label>Email
+<input required type="email" placeholder="you@email.com" value={form.email} onChange={(e)=>setForm({...form,email:e.target.value})}/>
+</label>
+</div>
+<label>I'm interested in
+<select required value={form.treatment} onChange={(e)=>setForm({...form,treatment:e.target.value})}>
+<option value="" disabled>Select a treatment</option>
+{treatments.map(t=><option key={t[1]}>{t[1]}</option>)}
+</select>
+</label>
+<label>Tell us more
+<textarea placeholder="Your goals, questions or preferred dates" value={form.message} onChange={(e)=>setForm({...form,message:e.target.value})}/>
+</label>
+<button className="button gold" type="submit" disabled={loading}>
+{loading?"Submitting...":"Request consultation"} <ArrowUpRight size={17}/>
+</button>
+<p className="form-note">By submitting, you agree to be contacted by Qubra Aesthetic Clinic.</p>
+</form>}</div></section>
     <SiteFooter/>
     <a className="whatsapp" href="https://wa.me/918910375901" aria-label="Chat with Qubra Clinic on WhatsApp">WhatsApp</a><a className="mobile-cta" href="#booking">Book consultation <ArrowUpRight size={17}/></a>
   </main>;
